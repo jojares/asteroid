@@ -1,13 +1,14 @@
 package fi.ojares.asteroid;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 
-@RestController
+@Controller
 public class AsteroidController {
 
     private AsteroidService asteroidService;
@@ -16,17 +17,21 @@ public class AsteroidController {
         this.asteroidService = asteroidService;
     }
 
-    @GetMapping("/largest")
-    public Asteroid getLargest(
+    @GetMapping("/")
+    public String viewAsteroids(
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-        return asteroidService.getLargestAsteroid(startDate, endDate);
-    }
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            Model model) {
 
-    @GetMapping("/nearest")
-    public Asteroid getNearest(
-            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-        return asteroidService.getNearestAsteroid(startDate, endDate);
+        model.addAttribute("largest", asteroidService.getLargestAsteroid(startDate, endDate));
+
+        // Fixed date range used for nearest Asteroid
+        LocalDate startDateConstant = LocalDate.of(2015, 12, 19);
+        LocalDate endDateConstant = LocalDate.of(2015, 12, 26);
+        model.addAttribute("startDate", startDateConstant);
+        model.addAttribute("endDate", endDateConstant);
+        model.addAttribute("nearest", asteroidService.getNearestAsteroid(startDateConstant, endDateConstant));
+
+        return "view-asteroids";
     }
 }
