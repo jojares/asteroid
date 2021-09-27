@@ -10,8 +10,7 @@ import java.time.LocalDate;
 public class NasaApiQuery {
 
     private final String apiRoot = "https://api.nasa.gov/neo/rest/v1/feed?";
-    private final String apiKey = "PS895iRsxk8JgWDNC6LkTJynIi9eEClOxTlHSS7k";
-    //private final String apiKey = "DEMO_KEY";
+    private final String apiKey = "DEMO_KEY";
 
     private LocalDate startDate, endDate;
 

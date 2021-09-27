@@ -42,7 +42,7 @@ class AsteroidServiceUnitTests {
         AsteroidDataSource dataSource = new NasaAsteroidDataSource(objectMapper.readTree(testJson));
         AsteroidService asteroidService = new AsteroidService(dataSource);
 
-        Asteroid asteroid = asteroidService.getNearestAsteroid(LocalDate.MIN, LocalDate.MAX);
+        Asteroid asteroid = asteroidService.getNearestAsteroid(LocalDate.of(2015, 1, 1), LocalDate.of(2015, 1, 1));
 
         assertThat(asteroid.getDistanceInKilometers(), equalTo(new BigDecimal("2450214.654065658")));
     }
@@ -73,7 +73,7 @@ class AsteroidServiceUnitTests {
         AsteroidDataSource dataSource = new NasaAsteroidDataSource(objectMapper.readTree(testJson));
         AsteroidService asteroidService = new AsteroidService(dataSource);
 
-        Asteroid asteroid = asteroidService.getLargestAsteroid(LocalDate.MIN, LocalDate.MAX);
+        Asteroid asteroid = asteroidService.getLargestAsteroid(LocalDate.of(2015, 1, 1), LocalDate.of(2015, 1, 1));
 
         assertThat(asteroid.getDiameterInKilometers(), equalTo(new BigDecimal("0.8204270649")));
     }
