@@ -1,12 +1,12 @@
 package fi.ojares.asteroid;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.time.Year;
 
 @Controller
 public class AsteroidController {
@@ -18,12 +18,9 @@ public class AsteroidController {
     }
 
     @GetMapping("/")
-    public String viewAsteroids(
-            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            Model model) {
+    public String viewAsteroids(@RequestParam("year") Year year, Model model) {
 
-        model.addAttribute("largest", asteroidService.getLargestAsteroid(startDate, endDate));
+        model.addAttribute("largest", asteroidService.getLargestAsteroid(year.atMonth(1).atDay(1), year.atMonth(12).atDay(31)));
 
         // Fixed date range used for nearest Asteroid
         LocalDate startDateConstant = LocalDate.of(2015, 12, 19);
